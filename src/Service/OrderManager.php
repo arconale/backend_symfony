@@ -3,12 +3,16 @@
 namespace App\Service;
 
 use App\Entity\Order;
+use App\Entity\Customer;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use App\Service\Contracts\OrderManagerInterface;
+use App\Service\PaginatorTrait;
 
 class OrderManager implements OrderManagerInterface {
+
+    use PaginatorTrait;
 
     /**
      * @var EntityManagerInterface
@@ -36,6 +40,14 @@ class OrderManager implements OrderManagerInterface {
         $flush && $this->entityManager->flush();
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function findOrdersPager($page, $size = null, Criteria $criteria = null){
+        $qb = $this->getRepository()->createQueryBuilder("o");
+        $criteria && $qb->addCriteria($criteria);
+        return $this->createPaginator($qb->getQuery(), $page, $size);
+    }
      /**
      * @return EntityRepository
      */
