@@ -22,6 +22,13 @@ interface OrderManagerInterface {
     public function saveOrder(Order $order, $flush = true);
 
     /**
+     * find Order
+     * @param int $id
+     * @return Order
+     */
+    public function findOrderById(int $id) : Order;
+
+    /**
      * Get Orders
      *
      * @param int $page

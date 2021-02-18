@@ -44,4 +44,21 @@ class OrderController extends FOSRestController{
     return $this->view($orders->getCurrentPageResults());
   }
 
+  /**
+   * Cancel Order
+   * @Rest\Post("/orders/cancel")
+   * @return Response
+   */
+  public function cancelOrder(Request $request){
+    $data = $request->getContent();
+    $data = \json_decode($data,true);
+    $id = $data["id"];
+    try {
+        $this->orderManager->cancelOrder($id);
+        return new JsonResponse(["operation" => true]);
+    } catch (\Exception $ex) {
+        return new JsonResponse(["operation" => false]);
+    }
+  }
+
 }

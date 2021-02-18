@@ -55,4 +55,22 @@ class OrderManager implements OrderManagerInterface {
     {
         return $this->entityManager->getRepository(Order::class);
     }
+    /**
+     * {@inheritdoc}
+     */
+    public function findOrderById(int $id) : Order {
+        return $this->getRepository()->find($id);
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function cancelOrder(int $id) {
+        $order = $this->findOrderById($id);
+        if($order){
+            $order->setStatus("cancelled");
+            $this->entityManager->flush();
+        }else{
+            throw new Exception("Order not found", 1);
+        }
+    }
 }
