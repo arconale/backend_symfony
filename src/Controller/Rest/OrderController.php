@@ -34,10 +34,10 @@ class OrderController extends FOSRestController{
     $status = $request->query->get('status');
     
     if ($customer != "" && $customer != 'null') {
-        $criteria->where(Criteria::expr()->eq('c.fullName', $customer));
+        $criteria->where(Criteria::expr()->contains('c.fullName', $customer));
     }
     if ($status != "" && $status != 'null') {
-        $criteria->andWhere(Criteria::expr()->contains('status', $status));
+        $criteria->andWhere(Criteria::expr()->eq('status', $status));
     }
     $orders = $this->orderManager->findOrdersPager(
         $request->query->get('page', 1),
