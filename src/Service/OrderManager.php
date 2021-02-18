@@ -44,7 +44,8 @@ class OrderManager implements OrderManagerInterface {
      * {@inheritdoc}
      */
     public function findOrdersPager($page, $size = null, Criteria $criteria = null){
-        $qb = $this->getRepository()->createQueryBuilder("o");
+        $qb = $this->getRepository()->createQueryBuilder("o")
+        ->join(Customer::class, 'c', 'WITH', 'c.id = o.customer');
         $criteria && $qb->addCriteria($criteria);
         return $this->createPaginator($qb->getQuery(), $page, $size);
     }
