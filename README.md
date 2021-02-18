@@ -17,7 +17,7 @@ $ cd backend_symfony
 $ composer install
 ```
 
-Installation
+Development server
 ------------
 
 After you setup the datbase you can run the local server:
